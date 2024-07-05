@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Time
 from sqlalchemy.orm import relationship
-from database import Base
+from app.database import Base
+
 
 class Carrera(Base):
     __tablename__ = "carreras"
