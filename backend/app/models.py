@@ -24,7 +24,7 @@ class Asignacion(Base):
     id = Column(Integer, primary_key=True, index=True)
     materia_id = Column(Integer, ForeignKey("materias.id"))
     aula_id = Column(Integer, ForeignKey("aulas.id"))
-    dia = Column(String, index=True)
+    dia_semana = Column(String, index=True)
     hora_inicio = Column(DateTime)
     hora_fin = Column(DateTime)
     materia = relationship("Materia")
