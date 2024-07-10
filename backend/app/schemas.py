@@ -1,5 +1,7 @@
+from enum import Enum
 from pydantic import BaseModel
 from datetime import time
+from backend.app.models import DiaSemana
 
 class CarreraBase(BaseModel):
     nombre: str
@@ -41,7 +43,7 @@ class Aula(AulaBase):
 class AsignacionBase(BaseModel):
     materia_id: int
     aula_id: int
-    dia_semana: str
+    dia_semana: DiaSemana
     hora_inicio: time
     hora_fin: time
 
