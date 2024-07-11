@@ -121,15 +121,38 @@ def delete_aula(db: Session, aula_id: int):
 #| 4. CRUD para asignaciones                                          |
 #|********************************************************************/
 
+
+#/********************************************************************|
+#| Little devilish inefficient create_asignacion explained:           |
+#|  Esta gilada no anda, pero ya va andar                             |
+#|********************************************************************/
 def create_asignacion(db: Session, asignacion: schemas.AsignacionCreate):
-    conflicts = db.query(models.Asignacion).filter(
+
+    if asignacion.hora_inicio == asignacion.hora_fin:
+        return None
+
+    conflicto = db.query(models.Asignacion).filter(
         models.Asignacion.aula_id == asignacion.aula_id,
         models.Asignacion.dia_semana == asignacion.dia_semana,
-        models.Asignacion.hora_inicio < asignacion.hora_fin,
-        models.Asignacion.hora_fin > asignacion.hora_inicio
+        models.Asignacion.hora_inicio <= asignacion.hora_inicio,
+        models.Asignacion.hora_fin >= asignacion.hora_inicio,
     ).all()
 
-    if conflicts:
+    conflicto2 = db.query(models.Asignacion).filter(
+        models.Asignacion.aula_id == asignacion.aula_id,
+        models.Asignacion.dia_semana == asignacion.dia_semana,
+        models.Asignacion.hora_fin >= asignacion.hora_fin,
+        models.Asignacion.hora_inicio <= asignacion.hora_fin
+    ).all()
+
+    conflicto3 = db.query(models.Asignacion).filter(
+        models.Asignacion.aula_id == asignacion.aula_id,
+        models.Asignacion.dia_semana == asignacion.dia_semana,
+        models.Asignacion.hora_inicio == asignacion.hora_inicio,
+        models.Asignacion.hora_fin == asignacion.hora_fin
+    ).first()
+
+    if conflicto or conflicto2 or conflicto3:
         return None
 
     db_asignacion = models.Asignacion(**asignacion.dict())
