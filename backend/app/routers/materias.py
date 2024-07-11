@@ -25,7 +25,7 @@ def read_materia(materia_id: int, db: Session = Depends(get_db)):
     return db_materia
 
 
-@router.put("/materias/{materia_id}", response_model=schemas.Materia)
+@router.put("/{materia_id}", response_model=schemas.Materia)
 def update_materia(
     materia_id: int, materia: schemas.MateriaCreate, db: Session = Depends(get_db)
 ):
@@ -35,7 +35,7 @@ def update_materia(
     return db_materia
 
 
-@router.delete("/materias/{materia_id}")
+@router.delete("/{materia_id}")
 def delete_materia(materia_id: int, db: Session = Depends(get_db)):
     db_materia = crud.delete_materia(db, materia_id)
     if db_materia is None:

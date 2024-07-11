@@ -22,7 +22,7 @@ def get_carrera(db: Session, carrera_id: int):
     return db_carrera
 
 def update_carrera(db: Session, carrera_id: int, carrera: schemas.CarreraCreate):
-    db_carrera = db.query(carrera).filter(carrera.id == carrera_id).first()
+    db_carrera = db.query(models.Carrera).filter(models.Carrera.id == carrera_id).first()
     if not db_carrera:
         return None
     for key, value in carrera.dict().items():
@@ -60,7 +60,7 @@ def get_materia(db: Session, materia_id: int):
     return db_materia
 
 def update_materia(db: Session, materia_id: int, materia: schemas.MateriaCreate):
-    db_materia = db.query(materia).filter(materia.id == materia_id).first()
+    db_materia = db.query(models.Materia).filter(models.Materia.id == materia_id).first()
     if not db_materia:
         return None
     for key, value in materia.dict().items():
@@ -98,7 +98,7 @@ def get_aula(db: Session, aula_id: int):
     return db_aula
 
 def update_aula(db: Session, aula_id: int, aula: schemas.AulaCreate):
-    db_aula = db.query(aula).filter(aula.id == aula_id).first()
+    db_aula = db.query(models.Aula).filter(models.Aula.id == aula_id).first()
     if not db_aula:
         return None
     for key, value in aula.dict().items():
@@ -146,7 +146,7 @@ def get_asignacion(db: Session, asignacion_id: int):
     return db_asignacion
 
 def update_asignacion(db: Session, asignacion_id: int, asignacion: schemas.AsignacionCreate):
-    db_asignacion = db.query(asignacion).filter(asignacion.id == asignacion_id).first()
+    db_asignacion = db.query(models.Asignacion).filter(models.Asignacion.id == asignacion_id).first()
     if not db_asignacion:
         return None
     for key, value in asignacion.dict().items():

@@ -8,7 +8,10 @@ router = APIRouter()
 
 @router.post("/", response_model=schemas.Asignacion)
 def create_asignacion(asignacion: schemas.AsignacionCreate, db: Session = Depends(get_db)):
-    return crud.create_asignacion(db, asignacion)
+    new_asignacion = crud.create_asignacion(db, asignacion)
+    if new_asignacion is None:
+        raise HTTPException(status_code=404, detail="Conflicto de horarios")
+    return new_asignacion
 
 
 @router.get("/", response_model=List[schemas.Asignacion])
@@ -24,7 +27,7 @@ def read_asignacion(asignacion_id: int, db: Session = Depends(get_db)):
     return db_asignacion
 
 
-@router.put("/asignacions/{asignacion_id}", response_model=schemas.Asignacion)
+@router.put("/{asignacion_id}", response_model=schemas.Asignacion)
 def update_asignacion(
     asignacion_id: int, asignacion: schemas.AsignacionCreate, db: Session = Depends(get_db)
 ):
@@ -34,15 +37,17 @@ def update_asignacion(
     return db_asignacion
 
 
-@router.delete("/asignacions/{asignacion_id}")
+@router.delete("/{asignacion_id}")
 def delete_asignacion(asignacion_id: int, db: Session = Depends(get_db)):
     db_asignacion = crud.delete_asignacion(db, asignacion_id)
     if db_asignacion is None:
         raise HTTPException(status_code=404, detail="Asignacion no encontrada")
     return db_asignacion
 
-def consulta_asignaciones(nombre_asignacion: str, db: Session = Depends(get_db)):
-    asignaciones = crud.get_asignaciones_by_materia(db, nombre_asignacion)
-    if asignaciones is None:
+
+@router.get("/materia/{materia_id}")
+def read_asignaciones_by_materia(materia_id: str, db: Session = Depends(get_db)):
+    db_asignacion = crud.get_asignaciones_by_materia(db, materia_id)
+    if db_asignacion is None:
         raise HTTPException(status_code=404, detail="Asignacion no encontrada")
-    return asignaciones
+    return db_asignacion

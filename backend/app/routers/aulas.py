@@ -25,7 +25,7 @@ def read_aula(aula_id: int, db: Session = Depends(get_db)):
     return db_aula
 
 
-@router.put("/aulas/{aula_id}", response_model=schemas.Aula)
+@router.put("/{aula_id}", response_model=schemas.Aula)
 def update_aula(
     aula_id: int, aula: schemas.AulaCreate, db: Session = Depends(get_db)
 ):
@@ -35,7 +35,7 @@ def update_aula(
     return db_aula
 
 
-@router.delete("/aulas/{aula_id}")
+@router.delete("/{aula_id}")
 def delete_aula(aula_id: int, db: Session = Depends(get_db)):
     db_aula = crud.delete_aula(db, aula_id)
     if db_aula is None:

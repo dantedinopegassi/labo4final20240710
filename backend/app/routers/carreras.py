@@ -25,7 +25,7 @@ def read_carrera(carrera_id: int, db: Session = Depends(get_db)):
     return db_carrera
 
 
-@router.put("/carreras/{carrera_id}", response_model=schemas.Carrera)
+@router.put("/{carrera_id}", response_model=schemas.Carrera)
 def update_carrera(
     carrera_id: int, carrera: schemas.CarreraCreate, db: Session = Depends(get_db)
 ):
@@ -35,7 +35,7 @@ def update_carrera(
     return db_carrera
 
 
-@router.delete("/carreras/{carrera_id}")
+@router.delete("/{carrera_id}")
 def delete_carrera(carrera_id: int, db: Session = Depends(get_db)):
     db_carrera = crud.delete_carrera(db, carrera_id)
     if db_carrera is None:
