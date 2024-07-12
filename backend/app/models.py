@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum as SqlEnum
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum as SqlEnum, UniqueConstraint
 from sqlalchemy.orm import relationship
 from app.database import Base
 from enum import Enum
@@ -39,3 +39,6 @@ class Asignacion(Base):
     hora_fin = Column(DateTime)
     materia = relationship("Materia")
     aula = relationship("Aula")
+    __table_args__ = (
+        UniqueConstraint('aula_id', 'dia_semana', 'hora_inicio', 'hora_fin', name='unique_asignacion'),
+    )
