@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "./api";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   const [materias, setMaterias] = useState([]);
@@ -139,6 +139,7 @@ const App = () => {
               <th>Description</th>
               <th>lncome?</th>
               <th>Date</th>
+              <th>Nombre</th>
             </tr>
           </thead>
           <tbody>
@@ -149,6 +150,7 @@ const App = () => {
                 <td>{materia.description}</td>
                 <td>{materia.is_income ? "Yes" : "No"}</td>
                 <td>{materia.date}</td>
+                <td>{materia.nombre}</td>
               </tr>
             ))}
           </tbody>
