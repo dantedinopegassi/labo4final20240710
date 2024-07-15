@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "./api";
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const [materias, setMaterias] = useState([]);
@@ -150,7 +151,6 @@ const App = () => {
                 <td>{materia.date}</td>
               </tr>
             ))}
-            ;
           </tbody>
         </table>
       </div>
