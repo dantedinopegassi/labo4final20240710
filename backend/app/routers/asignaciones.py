@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import exc
 from sqlalchemy.orm import Session
 from app import crud, schemas
 from app.deps import get_db
@@ -8,10 +9,13 @@ router = APIRouter()
 
 @router.post("/", response_model=schemas.Asignacion)
 def create_asignacion(asignacion: schemas.AsignacionCreate, db: Session = Depends(get_db)):
-    new_asignacion = crud.create_asignacion(db, asignacion)
-    if new_asignacion is None:
-        raise HTTPException(status_code=404, detail="Conflicto de horarios")
-    return new_asignacion
+    try:
+        new_asignacion = crud.create_asignacion(db, asignacion)
+        if new_asignacion is None:
+            raise HTTPException(status_code=404, detail="Conflicto de horarios")
+        return new_asignacion
+    except exc.IntegrityError as e:
+        raise HTTPException(status_code=400, detail="Error de ID de aula o materia no valida")
 
 
 @router.get("/", response_model=List[schemas.Asignacion])
@@ -31,10 +35,13 @@ def read_asignacion(asignacion_id: int, db: Session = Depends(get_db)):
 def update_asignacion(
     asignacion_id: int, asignacion: schemas.AsignacionCreate, db: Session = Depends(get_db)
 ):
-    db_asignacion = crud.update_asignacion(db, asignacion_id, asignacion)
-    if db_asignacion is None:
-        raise HTTPException(status_code=404, detail="Asignacion no encontrada")
-    return db_asignacion
+    try:
+        db_asignacion = crud.update_asignacion(db, asignacion_id, asignacion)
+        if db_asignacion is None:
+            raise HTTPException(status_code=404, detail="Asignacion no encontrada")
+        return db_asignacion
+    except exc.IntegrityError as e:
+        raise HTTPException(status_code=400, detail="Error de ID de aula o materia no valida")
 
 
 @router.delete("/{asignacion_id}")
