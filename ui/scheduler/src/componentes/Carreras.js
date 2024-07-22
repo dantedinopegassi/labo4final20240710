@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../api/axios';
+import api from './Api';
 
 const Carreras = () => {
   const [carreras, setCarreras] = useState([]);
@@ -11,7 +11,7 @@ const Carreras = () => {
 
   const fetchCarreras = async () => {
     try {
-      const response = await axios.get('/carreras');
+      const response = await api.get('/carreras');
       setCarreras(response.data);
     } catch (error) {
       console.error('Error fetching carreras:', error);
@@ -20,7 +20,7 @@ const Carreras = () => {
 
   const addCarrera = async () => {
     try {
-      await axios.post('/carreras', { nombre: newCarrera });
+      await api.post('/carreras', { nombre: newCarrera });
       setNewCarrera('');
       fetchCarreras();
     } catch (error) {

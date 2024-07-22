@@ -1,0 +1,81 @@
+.filtro-con-switch * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+}
+
+.filtro-con-switch {
+  display: flex;
+  background: #222;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 20px 15px;
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
+}
+
+.filtro-con-switch .option {
+  background: #333;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 10px;
+  border: 2px solid #555;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+.filtro-con-switch .option .dot {
+  height: 20px;
+  width: 20px;
+  background: #555;
+  border-radius: 50%;
+  position: relative;
+}
+
+.filtro-con-switch .option .dot::before {
+  position: absolute;
+  content: "";
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  background: #ddd;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+
+.filtro-con-switch input[type="radio"] {
+  display: none;
+}
+
+.filtro-con-switch input[type="radio"]:checked + label {
+  border-color: #0069d9;
+  background: #8115ac;
+}
+
+.filtro-con-switch input[type="radio"]:checked + label .dot {
+  background: #000000;
+}
+
+.filtro-con-switch input[type="radio"]:checked + label .dot::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.filtro-con-switch .option span {
+  font-size: 20px;
+  color: #838080;
+}
+
+.filtro-con-switch input[type="radio"]:checked + label span {
+  color: #fff;
+}
