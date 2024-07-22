@@ -23,6 +23,7 @@ class MateriaCreate(MateriaBase):
 
 class Materia(MateriaBase):
     id: int
+    carrera: Carrera
 
     class Config:
         orm_mode = True
@@ -46,11 +47,14 @@ class AsignacionBase(BaseModel):
     hora_inicio: time
     hora_fin: time
 
+
 class AsignacionCreate(AsignacionBase):
     pass
 
 class Asignacion(AsignacionBase):
     id: int
+    materia: Materia
+    aula: Aula
 
     class Config:
         orm_mode = True
