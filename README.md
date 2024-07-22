@@ -14,6 +14,19 @@ To set up your backend using FastAPI with SQLAlchemy and PostgreSQL, you'll need
 
 ### Setting Up Your Project
 
+
+python -m venv backend/env
+source backend/env/Scripts/activate
+pip install fastapi uvicorn sqlalchemy psycopg2-binary pydantic
+pip freeze > backend/requirements.txt
+1. **`variables.py` File inside backend/env**:
+
+   Create a `variables.py` file to store your database connection URL:
+
+   ```
+   DATABASE_URL=postgresql://<username>:<password>@localhost:<5432>/<database_name>
+   ```
+
 1. **Create and Activate Virtual Environment**:
 
    ```sh
