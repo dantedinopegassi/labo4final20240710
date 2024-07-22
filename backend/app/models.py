@@ -25,6 +25,9 @@ class Materia(Base):
     carrera_id = Column(Integer, ForeignKey("carreras.id"))
     carrera = relationship("Carrera", back_populates="materias")
     asignaciones = relationship("Asignacion", back_populates="materia")
+    __table_args__ = (
+        UniqueConstraint('nombre', 'carrera_id', name='unique_materia'),
+    )
 
 class Aula(Base):
     __tablename__ = "aulas"
