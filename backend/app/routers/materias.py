@@ -21,7 +21,7 @@ def read_materias(skip: int = 0, limit: int = 10, db: Session = Depends(get_db))
     return crud.get_materias(db, skip, limit)
 
 
-@router.get("/{materia_id}")
+@router.get("/{materia_id}", response_model=schemas.Materia)
 def read_materia(materia_id: int, db: Session = Depends(get_db)):
     db_materia = crud.get_materia(db, materia_id)
     if db_materia is None:

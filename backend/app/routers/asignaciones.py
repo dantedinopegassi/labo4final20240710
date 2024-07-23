@@ -23,7 +23,7 @@ def read_asignaciones(skip: int = 0, limit: int = 10, db: Session = Depends(get_
     return crud.get_asignaciones(db, skip, limit)
 
 
-@router.get("/{asignacion_id}")
+@router.get("/{asignacion_id}", response_model=schemas.Asignacion)
 def read_asignacion(asignacion_id: int, db: Session = Depends(get_db)):
     db_asignacion = crud.get_asignacion(db, asignacion_id)
     if db_asignacion is None:
@@ -52,7 +52,7 @@ def delete_asignacion(asignacion_id: int, db: Session = Depends(get_db)):
     return db_asignacion
 
 
-@router.get("/materia/{materia_id}")
+@router.get("/materia/{materia_id}", response_model=List[schemas.Asignacion])
 def read_asignaciones_by_materia(materia_id: int, db: Session = Depends(get_db)):
     db_asignacion = crud.get_asignaciones_by_materia(db, materia_id)
     if db_asignacion is None:
