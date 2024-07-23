@@ -24,7 +24,7 @@ class Materia(Base):
     nombre = Column(String, index=True)
     carrera_id = Column(Integer, ForeignKey("carreras.id"))
     carrera = relationship("Carrera", back_populates="materias")
-    asignaciones = relationship("Asignacion", back_populates="materia")
+    asignaciones_materia = relationship("Asignacion", back_populates="materia")
     __table_args__ = (
         UniqueConstraint('nombre', 'carrera_id', name='unique_materia'),
     )
@@ -33,7 +33,7 @@ class Aula(Base):
     __tablename__ = "aulas"
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, index=True, unique=True)
-    asignaciones = relationship("Asignacion", back_populates="aula")
+    asignaciones_aula = relationship("Asignacion", back_populates="aula")
 
 class Asignacion(Base):
     __tablename__ = "asignaciones"
@@ -43,8 +43,8 @@ class Asignacion(Base):
     dia_semana = Column(SqlEnum(DiaSemana), index=True)
     hora_inicio = Column(DateTime)
     hora_fin = Column(DateTime)
-    materia = relationship("Materia", back_populates="asignaciones")
-    aula = relationship("Aula", back_populates="asignaciones")
+    materia = relationship("Materia", back_populates="asignaciones_materia")
+    aula = relationship("Aula", back_populates="asignaciones_aula")
     __table_args__ = (
         UniqueConstraint('aula_id', 'dia_semana', 'hora_inicio', 'hora_fin', name='unique_asignacion'),
     )

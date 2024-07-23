@@ -5,7 +5,7 @@ CREATE DATABASE sistema_asignacion;
 CREATE TABLE materias (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    carrera VARCHAR(255) NOT NULL
+    carrera_id INT NOT NULL REFERENCES carreras(id)
 );
 
 -- Crear la tabla de Aulas
@@ -22,6 +22,11 @@ CREATE TABLE asignaciones (
     dia_semana VARCHAR(50) NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME NOT NULL
+);
+
+CREATE TABLE carreras (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
 );
 
 -- Crear restriccion de duplicados

@@ -53,7 +53,7 @@ def delete_asignacion(asignacion_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/materia/{materia_id}")
-def read_asignaciones_by_materia(materia_id: str, db: Session = Depends(get_db)):
+def read_asignaciones_by_materia(materia_id: int, db: Session = Depends(get_db)):
     db_asignacion = crud.get_asignaciones_by_materia(db, materia_id)
     if db_asignacion is None:
         raise HTTPException(status_code=404, detail="Asignacion no encontrada")

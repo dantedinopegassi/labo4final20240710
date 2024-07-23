@@ -115,6 +115,7 @@ const Materias = () => {
               <td>{materia.id}</td>
               <td>{materia.nombre}</td>
               <td>{materia.carrera.nombre}</td>
+              {console.log(materia)}
             </tr>
           ))}
         </tbody>

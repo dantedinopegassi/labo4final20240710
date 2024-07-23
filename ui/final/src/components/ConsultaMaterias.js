@@ -92,7 +92,7 @@ const ConsultaMaterias = () => {
           {asignaciones.map((asignacion) => (
             <tr key={asignacion.id}>
               <td>{asignacion.dia}</td>
-              <td>{asignacion.aula.nombre}</td>
+              <td>{asignacion.id?.nombre || "N/A"}</td>
               <td>{asignacion.horaInicio}</td>
               <td>{asignacion.horaFin}</td>
             </tr>

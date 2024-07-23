@@ -216,9 +216,9 @@ def delete_asignacion(db: Session, asignacion_id: int):
     return {"detail": "Asignacion borrada"}
 
 
-def get_asignaciones_by_materia(db: Session, nombre_materia: str):
+def get_asignaciones_by_materia(db: Session, materia_id: int):
     materia = (
-        db.query(models.Materia).filter(models.Materia.nombre == nombre_materia).first()
+        db.query(models.Materia).filter(models.Materia.id == materia_id).first()
     )
     if not materia:
         return None
