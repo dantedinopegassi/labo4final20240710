@@ -47,6 +47,7 @@ import { Table, Button, Form } from 'react-bootstrap';
 const Aulas = () => {
   const [aulas, setAulas] = useState([]);
   const [nombre, setNombre] = useState('');
+  const [editAula, setEditAula] = useState(null);
 
   useEffect(() => {
     fetchAulas();
@@ -60,6 +61,31 @@ const Aulas = () => {
   const addAula = async () => {
     await api.post('/aulas', { nombre });
     fetchAulas();
+  };
+
+  const updateAula = async () => {
+    await api.put(`/aulas/${editAula.id}`, {
+      nombre: editAula.nombre
+    });
+    fetchAulas();
+    setEditAula(null);
+  };
+
+  const handleEditChange = (e) => {
+    setEditAula({
+      ...editAula,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/aulas/${id}`);
+      fetchAulas();
+    } catch (error) {
+      alert("Error borrando aula");
+      console.error("Error borrando aula:", error);
+    }
   };
 
   return (
@@ -82,6 +108,7 @@ const Aulas = () => {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -89,9 +116,14 @@ const Aulas = () => {
             <tr key={aula.id}>
               <td>{aula.id}</td>
               <td>{aula.nombre}</td>
+              <td>
+                    <Button onClick={() => setEditAula(aula)}>Editar</Button>
+                    <Button onClick={() => handleDelete(aula.id)}>Eliminar</Button>
+                  </td>
             </tr>
           ))}
         </tbody>
+        
       </Table>
     </div>
   );

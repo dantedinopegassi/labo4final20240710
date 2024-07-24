@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Table, Button, Form } from 'react-bootstrap';
+import dias from "../services/days_of_week";
 
 const Asignaciones = () => {
   const [aulas, setAulas] = useState([]);
@@ -62,12 +63,12 @@ const Asignaciones = () => {
         </Form.Group>
         <Form.Group controlId="dia">
           <Form.Label>Día</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Día"
-            value={dia}
-            onChange={(e) => setDia(e.target.value)}
-          />
+          <Form.Control as="select" value={dia} onChange={(e) => setDia(e.target.value)}>
+            <option value="">Seleccione un Dia</option>
+            {dias.map((dia) => (
+              <option key={dia} value={dia}>{dia}</option>
+            ))}
+          </Form.Control>
         </Form.Group>
         <Form.Group controlId="horaInicio">
           <Form.Label>Hora de Inicio</Form.Label>

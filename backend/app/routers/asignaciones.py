@@ -37,6 +37,7 @@ def update_asignacion(
 ):
     try:
         db_asignacion = crud.update_asignacion(db, asignacion_id, asignacion)
+        print(db_asignacion)
         if db_asignacion is None:
             raise HTTPException(status_code=404, detail="Asignacion no encontrada")
         return db_asignacion

@@ -56,6 +56,7 @@ const Materias = () => {
   const [carreras, setCarreras] = useState([]);
   const [nombre, setNombre] = useState('');
   const [carreraId, setCarreraId] = useState('');
+  const [editMateria, setEditMateria] = useState(null);
 
   useEffect(() => {
     fetchMaterias();
@@ -75,6 +76,32 @@ const Materias = () => {
   const addMateria = async () => {
     await api.post('/materias', { nombre, carrera_id: carreraId });
     fetchMaterias();
+  };
+
+  const updateMateria = async () => {
+    await api.put(`/materias/${editMateria.id}`, {
+      nombre: editMateria.nombre,
+      carrera_id: editMateria.carrera_id,
+    });
+    fetchMaterias();
+    setEditMateria(null);
+  };
+
+  const handleEditChange = (e) => {
+    setEditMateria({
+      ...editMateria,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/materias/${id}`);
+      fetchMaterias();
+    } catch (error) {
+      alert("Error borrando materia");
+      console.error("Error borrando materia:", error);
+    }
   };
 
   return (
@@ -101,21 +128,62 @@ const Materias = () => {
         </Form.Group>
         <Button onClick={addMateria}>Agregar Materia</Button>
       </Form>
+
+      
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Carrera</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {materias.map((materia) => (
             <tr key={materia.id}>
-              <td>{materia.id}</td>
-              <td>{materia.nombre}</td>
-              <td>{materia.carrera.nombre}</td>
-              {console.log(materia)}
+              {editMateria && editMateria.id === materia.id ? (
+                <>
+                  <td>{materia.id}</td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="nombre"
+                      value={editMateria.nombre}
+                      onChange={handleEditChange}
+                    />
+                  </td>
+                  <td>
+                    <Form.Control
+                      as="select"
+                      name="carrera_id"
+                      value={editMateria.carrera_id}
+                      onChange={handleEditChange}
+                    >
+                      <option value="">Seleccione una Carrera</option>
+                      {carreras.map((carrera) => (
+                        <option key={carrera.id} value={carrera.id}>
+                          {carrera.nombre}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </td>
+                  <td>
+                    <Button onClick={updateMateria}>Guardar</Button>
+                    <Button onClick={() => setEditMateria(null)}>Cancelar</Button>
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>{materia.id}</td>
+                  <td>{materia.nombre}</td>
+                  <td>{materia.carrera.nombre}</td>
+                  <td>
+                    <Button onClick={() => setEditMateria(materia)}>Editar</Button>
+                    <Button onClick={() => handleDelete(materia.id)}>Eliminar</Button>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>
