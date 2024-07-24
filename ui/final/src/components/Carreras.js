@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import api from '../services/api';
-import { Table, Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import api from "../services/api";
+import { Table, Button, Form } from "react-bootstrap";
 
 const Carreras = () => {
   const [carreras, setCarreras] = useState([]);
-  const [nombre, setNombre] = useState('');
+  const [nombre, setNombre] = useState("");
 
   useEffect(() => {
     fetchCarreras();
   }, []);
 
   const fetchCarreras = async () => {
-    const response = await api.get('/carreras');
+    const response = await api.get("/carreras");
     setCarreras(response.data);
   };
 
   const addCarrera = async () => {
-    await api.post('/carreras', { nombre });
-    fetchCarreras();
+    try {
+      await api.post("/carreras", { nombre });
+      fetchCarreras();
+    } catch (error) {
+      alert("Error aniadiendo carrera");
+      console.error("Error aniadiendo carrera:", error);
+    }
   };
 
   return (

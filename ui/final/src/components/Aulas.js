@@ -22,11 +22,11 @@
 //   return (
 //     <div>
 //       <h2>Aulas</h2>
-//       <input 
-//         type="text" 
-//         placeholder="Nombre" 
-//         value={nombre} 
-//         onChange={(e) => setNombre(e.target.value)} 
+//       <input
+//         type="text"
+//         placeholder="Nombre"
+//         value={nombre}
+//         onChange={(e) => setNombre(e.target.value)}
 //       />
 //       <button onClick={addAula}>Agregar Aula</button>
 //       <ul>
@@ -40,13 +40,13 @@
 
 // export default Aulas;
 
-import React, { useState, useEffect } from 'react';
-import api from '../services/api';
-import { Table, Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import api from "../services/api";
+import { Table, Button, Form } from "react-bootstrap";
 
 const Aulas = () => {
   const [aulas, setAulas] = useState([]);
-  const [nombre, setNombre] = useState('');
+  const [nombre, setNombre] = useState("");
   const [editAula, setEditAula] = useState(null);
 
   useEffect(() => {
@@ -54,21 +54,31 @@ const Aulas = () => {
   }, []);
 
   const fetchAulas = async () => {
-    const response = await api.get('/aulas');
+    const response = await api.get("/aulas");
     setAulas(response.data);
   };
 
   const addAula = async () => {
-    await api.post('/aulas', { nombre });
-    fetchAulas();
+    try {
+      await api.post("/aulas", { nombre });
+      fetchAulas();
+    } catch (error) {
+      alert("Error aniadiendo aula");
+      console.error("Error aniadiendo aula:", error);
+    }
   };
 
   const updateAula = async () => {
-    await api.put(`/aulas/${editAula.id}`, {
-      nombre: editAula.nombre
-    });
-    fetchAulas();
-    setEditAula(null);
+    try {
+      await api.put(`/aulas/${editAula.id}`, {
+        nombre: editAula.nombre,
+      });
+      fetchAulas();
+      setEditAula(null);
+    } catch (error) {
+      alert("Error modificando aula");
+      console.error("Error modificando aula:", error);
+    }
   };
 
   const handleEditChange = (e) => {
@@ -117,13 +127,12 @@ const Aulas = () => {
               <td>{aula.id}</td>
               <td>{aula.nombre}</td>
               <td>
-                    <Button onClick={() => setEditAula(aula)}>Editar</Button>
-                    <Button onClick={() => handleDelete(aula.id)}>Eliminar</Button>
-                  </td>
+                <Button onClick={() => setEditAula(aula)}>Editar</Button>
+                <Button onClick={() => handleDelete(aula.id)}>Eliminar</Button>
+              </td>
             </tr>
           ))}
         </tbody>
-        
       </Table>
     </div>
   );

@@ -23,17 +23,17 @@
 //   return (
 //     <div>
 //       <h2>Materias</h2>
-//       <input 
-//         type="text" 
-//         placeholder="Nombre" 
-//         value={nombre} 
-//         onChange={(e) => setNombre(e.target.value)} 
+//       <input
+//         type="text"
+//         placeholder="Nombre"
+//         value={nombre}
+//         onChange={(e) => setNombre(e.target.value)}
 //       />
-//       <input 
-//         type="text" 
-//         placeholder="Carrera" 
-//         value={carrera} 
-//         onChange={(e) => setCarrera(e.target.value)} 
+//       <input
+//         type="text"
+//         placeholder="Carrera"
+//         value={carrera}
+//         onChange={(e) => setCarrera(e.target.value)}
 //       />
 //       <button onClick={addMateria}>Agregar Materia</button>
 //       <ul>
@@ -47,15 +47,15 @@
 
 // export default Materias;
 
-import React, { useState, useEffect } from 'react';
-import api from '../services/api';
-import { Table, Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import api from "../services/api";
+import { Table, Button, Form } from "react-bootstrap";
 
 const Materias = () => {
   const [materias, setMaterias] = useState([]);
   const [carreras, setCarreras] = useState([]);
-  const [nombre, setNombre] = useState('');
-  const [carreraId, setCarreraId] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [carreraId, setCarreraId] = useState("");
   const [editMateria, setEditMateria] = useState(null);
 
   useEffect(() => {
@@ -64,27 +64,37 @@ const Materias = () => {
   }, []);
 
   const fetchMaterias = async () => {
-    const response = await api.get('/materias');
+    const response = await api.get("/materias");
     setMaterias(response.data);
   };
 
   const fetchCarreras = async () => {
-    const response = await api.get('/carreras');
+    const response = await api.get("/carreras");
     setCarreras(response.data);
   };
 
   const addMateria = async () => {
-    await api.post('/materias', { nombre, carrera_id: carreraId });
-    fetchMaterias();
+    try {
+      await api.post("/materias", { nombre, carrera_id: carreraId });
+      fetchMaterias();
+    } catch (error) {
+      alert("Error aniadiendo materia");
+      console.error("Error anadiendo materia:", error);
+    }
   };
 
   const updateMateria = async () => {
-    await api.put(`/materias/${editMateria.id}`, {
-      nombre: editMateria.nombre,
-      carrera_id: editMateria.carrera_id,
-    });
-    fetchMaterias();
-    setEditMateria(null);
+    try {
+      await api.put(`/materias/${editMateria.id}`, {
+        nombre: editMateria.nombre,
+        carrera_id: editMateria.carrera_id,
+      });
+      fetchMaterias();
+      setEditMateria(null);
+    } catch (error) {
+      alert("Error modificando materia");
+      console.error("Error modificando materia:", error);
+    }
   };
 
   const handleEditChange = (e) => {
@@ -119,17 +129,22 @@ const Materias = () => {
         </Form.Group>
         <Form.Group controlId="carrera">
           <Form.Label>Carrera</Form.Label>
-          <Form.Control as="select" value={carreraId} onChange={(e) => setCarreraId(e.target.value)}>
+          <Form.Control
+            as="select"
+            value={carreraId}
+            onChange={(e) => setCarreraId(e.target.value)}
+          >
             <option value="">Seleccione una Carrera</option>
             {carreras.map((carrera) => (
-              <option key={carrera.id} value={carrera.id}>{carrera.nombre}</option>
+              <option key={carrera.id} value={carrera.id}>
+                {carrera.nombre}
+              </option>
             ))}
           </Form.Control>
         </Form.Group>
         <Button onClick={addMateria}>Agregar Materia</Button>
       </Form>
 
-      
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -170,7 +185,9 @@ const Materias = () => {
                   </td>
                   <td>
                     <Button onClick={updateMateria}>Guardar</Button>
-                    <Button onClick={() => setEditMateria(null)}>Cancelar</Button>
+                    <Button onClick={() => setEditMateria(null)}>
+                      Cancelar
+                    </Button>
                   </td>
                 </>
               ) : (
@@ -179,8 +196,12 @@ const Materias = () => {
                   <td>{materia.nombre}</td>
                   <td>{materia.carrera.nombre}</td>
                   <td>
-                    <Button onClick={() => setEditMateria(materia)}>Editar</Button>
-                    <Button onClick={() => handleDelete(materia.id)}>Eliminar</Button>
+                    <Button onClick={() => setEditMateria(materia)}>
+                      Editar
+                    </Button>
+                    <Button onClick={() => handleDelete(materia.id)}>
+                      Eliminar
+                    </Button>
                   </td>
                 </>
               )}
