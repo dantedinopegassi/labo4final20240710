@@ -124,12 +124,38 @@ const Aulas = () => {
         <tbody>
           {aulas.map((aula) => (
             <tr key={aula.id}>
-              <td>{aula.id}</td>
-              <td>{aula.nombre}</td>
-              <td>
-                <Button onClick={() => setEditAula(aula)}>Editar</Button>
-                <Button onClick={() => handleDelete(aula.id)}>Eliminar</Button>
-              </td>
+              {editAula && editAula.id === aula.id ? (
+                <>
+                  <td>{aula.id}</td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="nombre"
+                      value={editAula.nombre}
+                      onChange={handleEditChange}
+                    />
+                  </td>
+                  <td>
+                    <Button onClick={updateAula}>Guardar</Button>
+                    <Button onClick={() => setEditAula(null)}>
+                      Cancelar
+                    </Button>
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>{aula.id}</td>
+                  <td>{aula.nombre}</td>
+                  <td>
+                    <Button onClick={() => setEditAula(aula)}>
+                      Editar
+                    </Button>
+                    <Button onClick={() => handleDelete(aula.id)}>
+                      Eliminar
+                    </Button>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

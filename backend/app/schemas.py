@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import time
+from datetime import datetime
 from app.models import DiaSemana
 
 class CarreraBase(BaseModel):
@@ -44,8 +44,8 @@ class AsignacionBase(BaseModel):
     materia_id: int
     aula_id: int
     dia_semana: DiaSemana
-    hora_inicio: time
-    hora_fin: time
+    hora_inicio: datetime
+    hora_fin: datetime
 
 
 class AsignacionCreate(AsignacionBase):
