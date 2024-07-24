@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
 import Materias from './components/Materias';
 import Aulas from './components/Aulas';
 import Carreras from './components/Carreras';
@@ -12,7 +13,7 @@ function App() {
     <Router>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">Asignación de Aulas</Navbar.Brand>
+          <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/materias">Materias</Nav.Link>
             <Nav.Link href="/aulas">Aulas</Nav.Link>
@@ -24,6 +25,7 @@ function App() {
       </Navbar>
       <Container>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/materias" element={<Materias />} />
           <Route path="/aulas" element={<Aulas />} />
           <Route path="/carreras" element={<Carreras />} />
