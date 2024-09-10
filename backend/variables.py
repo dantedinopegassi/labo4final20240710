@@ -1,1 +1,0 @@
-DATABASE_URL="postgresql://postgres:1997@localhost:5432/Labo4FinalDB"

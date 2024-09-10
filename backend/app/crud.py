@@ -191,6 +191,9 @@ def update_asignacion(
             .filter(models.Asignacion.id == asignacion_id)
             .first()
         )
+        conflictos = verificar_conflictos(db, asignacion)
+        if conflictos:
+            return None
         if not db_asignacion:
             return None
         for key, value in asignacion.dict().items():

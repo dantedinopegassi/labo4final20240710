@@ -1,3 +1,12 @@
+# IMPORTANTE
+crear un .env con estos parametros en la misma carpeta de docker-compose.yml:
+POSTGRES_USER=tu_usuario
+POSTGRES_PASSWORD=tu_pass
+POSTGRES_DB=tu_database
+
+el formato de la conexion a la base de datos en sqlalchemy es
+DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+
 # labo4final20240710
 
 To set up your backend using FastAPI with SQLAlchemy and PostgreSQL, you'll need to install several dependencies. Here’s a list of the required dependencies and the steps to install them:
